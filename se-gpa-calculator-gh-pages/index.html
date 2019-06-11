@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>SE - GPA Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#3f51b5">
+    <meta name="theme-color" content="#3f51b5">
+
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="css/materialize.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+</head>
+
+<body ng-controller="gpaCtrl">
+    <div class="loader blue-grey darken-4">
+        <div class="progress blue-grey darken-4">
+            <div class="indeterminate indigo"></div>
+        </div>
+    </div>
+
+
+    <main>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper  blue-grey darken-4">
+                    <img class="brand-logo logo left" src="favicon.png" />
+                    <div href="#" class="brand-logo GPA center">GPA : {{cgpa | number : 2}}</div>
+                    <button class="right btn waves-effect waves-light indigo" ng-click="reset()">RESET</button>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+
+            <div class="row subjectTab">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s3" ng-repeat="z in subjects">
+                            <a class="active" href="#test{{z.year}}">Year {{z.year}} <span
+                                    class="badge blue white-text">{{z.ygpa?z.ygpa:0 | number:2}}</span></a>
+
+                        </li>
+                        <!-- <li class="tab col s3"><a href="#test2">Year 2</a></li>
+                        <li class="tab col s3"><a href="#test3">Year 3</a></li>
+                        <li class="tab col s3"><a href="#test4">Year 4</a></li> -->
+                    </ul>
+                </div>
+                <div id="test{{z.year}}" class="tabContent col s12" ng-repeat="z in subjects">
+                    <div class="col s12 m6 semContent" ng-repeat="s in z.sems">
+                        <h6 class="">Credits : {{ s.totalCredit }} | GPA : {{ s.semgpa | number : 2 }}
+                            <!-- <span class="badge indigo white-text">
+                                {{s.sem}}</span> -->
+                        </h6>
+                        <div class="row" ng-repeat="x in s.subs">
+                            <div class="col s4 m3">
+                                {{x.id.substr(0,9)}}<b>{{x.id.substr(-1)}}</b><br>
+                                <span ng-if="x.type" ng-class="x.type" class="badge left white-text">{{ x.type | getType }}</span>
+                            </div>
+                            <div class="col s8 m6 subName">{{x.name | lowercase }} </div>
+                            <div class="col s12 m3">
+                                <!-- browser-default -->
+                                <select class="browser-default" ng-class="x.grade | getGradeClass" ng-model="x.grade"
+                                    ng-change="updateGPA()" ng-options="y.val as y.name for y in grades">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="floating-stat show-on-large">
+                <table class="table-responsive highlight">
+                    <tbody>
+                        <!-- <tr>
+                            <td colspan="2"><i class="medium material-icons">insert_chart</i></td>
+                        </tr> -->
+                        <tr>
+                            <td>Credits</td>
+                            <td>{{totalCd}}</td>
+                        </tr>
+                        <tr>
+                            <td>Subjects</td>
+                            <td>{{ numOfSubjects }}</td>
+                        </tr>
+                        <tr>
+                            <td>A+</td>
+                            <td>{{AplusCount}}</td>
+                        </tr>
+                        <tr>
+                            <td>A</td>
+                            <td>{{ACount}}</td>
+                        </tr>
+                        <tr>
+                            <td>Repeat</td>
+                            <td>{{RepeatCount}}</td>
+                        </tr>
+                        <!-- <tr class="green" ng-if="RepeatCount == 0">
+                            <td colspan="2">Eligible</td>
+                        </tr>
+                        <tr class="red" ng-if="cgpa < 2.0">
+                            <td colspan="2">Not Eligible</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class=" blue-grey darken-4">
+        <div class="footer-copyright">
+            <div class="container">
+                Nuwan94 © 2018
+                <a class="grey-text text-lighten-4 right" target="_blank" href="https://github.com/Nuwan94/se-gpa-calculator">❤
+                    Github</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/materialize.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
